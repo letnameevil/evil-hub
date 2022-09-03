@@ -1,6 +1,7 @@
 const Koa = require('koa')
 const bodyParser = require('koa-bodyparser')
-const errorHandler = require('../app/error-handle')
+const errorHandler = require('./error-handle')
+const paramsErrorHandler = require('./params-error-handle')
 // const userRouter = require('../router/user.router')
 // const autoRouter = require('../router/auth.router')
 // 遍历使用所有路由
@@ -18,5 +19,8 @@ routeIndex(app) // 这个方法就是上面的函数封装
 
 // 错误处理
 app.on('error', errorHandler)
+
+// 参数错误
+app.on('params-error',paramsErrorHandler)
 
 module.exports = app

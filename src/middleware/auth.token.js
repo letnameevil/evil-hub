@@ -5,7 +5,12 @@ const errorType = require('../constants/error-type')
 const verifyToken = async (ctx, next) => {
   const { authorization } = ctx.request.headers
 
-  const token = authorization.replace('Bearer ', '')
+  // console.log('authorization', authorization)
+
+  // 这里可能没有传token所以要用可选链条
+  const token = authorization?.replace('Bearer ', '')
+
+  // console.log('token', token)
 
   // 验证token
   try {
@@ -21,16 +26,16 @@ const verifyToken = async (ctx, next) => {
           exp: 1662105093
       }
     */
-    console.log(result)
+    // console.log(result)
+    // 把通过解析的token返回给下一个中间件
+    ctx.userInfo = result
+
     await next()
   } catch (err) {
     const error = new Error(errorType.TOKEN_ERROR)
-    // console.log(err.message)
     return ctx.app.emit('error', error, ctx)
   }
 }
-
-
 
 module.exports = {
   verifyToken,

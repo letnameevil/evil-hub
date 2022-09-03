@@ -17,12 +17,12 @@ class AuthService {
   async verifyUserAndPwd(name, password) {
     const statement = `SELECT * FROM users WHERE name = ? AND password = ?`
     const result = await connection.execute(statement, [name, password])
-    console.log('result', result[0])
+    console.log('result', result[0][0].roles)
     if (result[0].length === 0) return false
     return {
       userId: result[0][0].userId,
       name: result[0][0].name,
-      roles: result[0][0].roles,
+      roles: JSON.parse(result[0][0].roles),
     }
   }
 }
