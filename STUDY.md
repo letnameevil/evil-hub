@@ -25,3 +25,7 @@
                HS256(base64Url(header) + . + base64Url(payload),secretKey)
                secretKey不能暴露，如果暴露就可以模拟token的办法，也可以解密token
 - 在加密时，采用非对称加密算法 RS256，密钥分公钥和私钥
+
+### 文件管理系统
+- 接收上传文件的中间件(具体使用见代码)
+ `koa-multer`
