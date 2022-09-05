@@ -24,6 +24,19 @@ const handlerAvatar = async (ctx, next) => {
   }
 }
 
+const handlerFile = async (ctx, next) => {
+  // console.log(ctx.request.body) // 拿post 请求中的json body中的内容
+  console.log(ctx.req.file, 99999) // 拿FormData格式的文件对象
+  // console.log(ctx.req.body) // 拿FormData格式的非文件对象 例如：formData.append('username','letnameevil')
+  // console.log('ctx.userInfo',ctx.userInfo)
+  // const { userId } = ctx.userInfo
+  // const { originalname, size, mimetype, path } = ctx.req.file
+
+
+  await next()
+}
+
 module.exports = {
   handlerAvatar,
+  handlerFile,
 }
