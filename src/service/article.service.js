@@ -25,7 +25,7 @@ class ArticleService {
       statement = `UPDATE articles SET isDel = 1 WHERE articleId in (${stateParams.join()});`
     } else {
       stateParams = parseInt(articleId)
-      statement = `UPDATE articles SET isDel = 0 WHERE articleId = ${stateParams};`
+      statement = `UPDATE articles SET isDel = 1 WHERE articleId = ${stateParams};`
     }
 
     try {

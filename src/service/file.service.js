@@ -2,13 +2,18 @@ const connection = require('../app/database')
 
 class FileService {
   async upLoadAvatar(...info) {
-    // const statement = `
-    // INSERT INTO avatars (userId,fileName,size,mimeType,avatarUrl) VALUES (?,?,?,?,?);
-    // `
+    console.log(info)
+    const statement = `
+    INSERT INTO avatars (userId,fileName,size,mimeType,avatarUrl) VALUES (?,?,?,?,?);
+    `
 
-    // const result = await connection.execute(statement, info)
-    // console.log(result)
-    return true
+    try {
+      const result = await connection.execute(statement, info)
+      if(result[0].affectedRows === 1) return true
+    } catch (err) {
+      console.log('err', err)
+      return false
+    }
   }
 }
 
