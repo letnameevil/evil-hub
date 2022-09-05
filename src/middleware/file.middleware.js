@@ -31,7 +31,7 @@ const handlerFile = async (ctx, next) => {
   // console.log('ctx.userInfo',ctx.userInfo)
   // const { userId } = ctx.userInfo
   // const { originalname, size, mimetype, path } = ctx.req.file
-
+// 420902199610096216
 
   await next()
 }
