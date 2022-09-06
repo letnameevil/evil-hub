@@ -25,7 +25,6 @@ const pubArticle = async (ctx, next) => {
 // 删除文章（支持单个删除，或者批量删除）
 const delArticle = async (ctx, next) => {
   const { articleId } = ctx.request.query
-
   const result = await service.delArticle(articleId)
   if (result) return await next()
   ctx.body = {
@@ -36,14 +35,17 @@ const delArticle = async (ctx, next) => {
 
 // 获取文章列表 idDel 0
 const getList = async (ctx, next) => {
-  const result = await service.getArticleList()
-  console.log('result', result)
+  let { pageNumber, pageSize } = ctx.request.query
+  if (!pageNumber) pageNumber = 1
+  if (!pageSize) pageSize = 10
+
+  const result = await service.getArticleList(pageNumber, pageSize)
 
   if (result) {
     ctx.body = {
       status: 200,
       message: '获取成功',
-      records: result,
+      ...result,
     }
   } else {
     ctx.body = {

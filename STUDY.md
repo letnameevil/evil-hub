@@ -29,3 +29,109 @@
 ### 文件管理系统
 - 接收上传文件的中间件(具体使用见代码)
  `koa-multer`
+
+### 各种文件类型的转换
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input type="file" />
+    <button>点击下载</button>
+    <script src="https://unpkg.com/axios@0.27.2/dist/axios.min.js"></script>
+    <script>
+      const ipt = document.querySelector('input'),
+        btn = document.querySelector('button')
+
+      btn.onclick = function () {
+        let str = ''
+        const reader = new FileReader()
+
+        reader.addEventListener('load', (e) => {
+          str = e.target.result
+        })
+
+        reader.onloadend = function () {
+          console.log('duwanl')
+          var arr = str.split(',')
+          mine = arr[0].match(/:(.*?);/)[1]
+          bstr = atob(arr[1])
+          n = bstr.length
+          u8arr = new Uint8Array(n)
+          while (n--) {
+            u8arr[n] = bstr.charCodeAt(n)
+          }
+
+          const ret = new Blob([u8arr], {
+            type: mine,
+          })
+
+          console.log(ret)
+
+          console.log(URL.createObjectURL(ret))
+
+          const img = new Image()
+
+          img.src = URL.createObjectURL(ret)
+
+          document.body.appendChild(img)
+        }
+
+        reader.readAsDataURL(ipt.files[0])
+
+        // console.log(ipt.files[0])
+        // console.log(new Blob(['cheng'], { type: 'text/plain', name: 'cheng' }))
+
+        // const file = ipt.files[0]
+
+        // const formData = new FormData()
+
+        // formData.append('avatar', file)
+        // formData.append('userName','chenghsihuai')
+
+        // axios({
+        //   url: 'http://localhost:8888/upload/getFile',
+        //   method: 'GET',
+        //   // responseType: 'blob',
+        // }).then((res) => {
+        //   console.log('res', res.data.data.data)
+
+        //   const arrayBuffer = new Int8Array(res.data.data.data)
+
+        //   const blob = new Blob([arrayBuffer])
+        //   console.log(blob)
+        //   const fileRead = new FileReader()
+
+        //   fileRead.onload = function (e) {
+        //     console.log(e.target.result)
+        //   }
+
+        //   fileRead.readAsDataURL(blob)
+
+        // fileRead.readAsDataURL
+
+        // console.log(blob)
+
+        // const a = document.createElement('a')
+
+        // const blobUrl = URL.createObjectURL(blob)
+
+        // console.log(blobUrl)
+        // a.download = 'tes.mp4'
+
+        // a.href = blobUrl
+
+        // a.click()
+        // })
+      }
+    </script>
+  </body>
+</html>
+```
+
+

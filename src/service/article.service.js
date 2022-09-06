@@ -39,8 +39,27 @@ class ArticleService {
     }
   }
 
-  // 获取文章
-  async getArticleList() {
+  // 获取文章(分页处理)
+  async getArticleList(pageNumber = 1, pageSize = 10) {
+    let total = 0
+
+    const statementCount = `
+  SELECT
+    COUNT(*)
+  FROM
+    users
+    RIGHT JOIN articles ON users.userId = articles.publicUserId 
+  WHERE
+    isDel = 0
+    `
+    try {
+      const result = await connection.execute(statementCount)
+      const ret = Object.values(result[0][0])[0]
+      total = ret
+    } catch (err) {
+      console.log(err)
+    }
+
     const statement = `SELECT
     articleId,
     publicUserId,
@@ -54,18 +73,26 @@ class ArticleService {
   WHERE
     isDel = 0
   ORDER BY 
-    deteletAt`
+    publicAt DESC
+  LIMIT ${(pageNumber - 1) * pageSize} , ${pageSize};
+    `
     try {
       const result = await connection.execute(statement)
       if (result[0].length === 0) {
-        return []
+        return {
+          total,
+          records: []
+        }
       } else {
         const records = result[0]
         // 处理时间
         records.forEach((item) => {
           item.publicAt = dayjs(item.publicAt).format('YY-MM-DD hh:mm:ss')
         })
-        return records
+        return {
+          total,
+          records
+        }
       }
     } catch (err) {
       return false
