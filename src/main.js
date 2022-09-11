@@ -2,6 +2,9 @@ require('./router/index')
 
 const app = require('./app')
 
+const { BASE_URL } = require('./app/config')
+console.log(BASE_URL)
+
 // 启动数据库连接
 require('./app/database')
 
