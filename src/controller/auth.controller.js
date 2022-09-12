@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const { PrivateKey } = require('../app/config')
-
+const { BASE_URL } = require('../app/config')
 class AuthController {
   // 操作数据库需要异步操作 要加async
   async create(ctx, next) {
@@ -20,6 +20,7 @@ class AuthController {
       name,
       roles,
       token,
+      BASE_URL
     }
   }
 }
