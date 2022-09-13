@@ -32,6 +32,13 @@ class UserService {
     if (result[0].length === 0) return true
     else return false
   }
+
+  // 获取用户表中的所有的数据
+  async getUserLists() {
+    const statement = `SELECT * FROM users`
+    const result = await connection.execute(statement)
+    return result[0]
+  }
 }
 
 module.exports = new UserService()

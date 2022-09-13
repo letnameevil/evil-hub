@@ -39,7 +39,17 @@ const handlePassword = async (ctx, next) => {
   await next()
 }
 
+// 获取用户列表中间件
+const handGetUserList = async (ctx, next) => {
+  const ret = await service.getUserLists()
+
+  ctx.userList = ret
+
+  await next()
+}
+
 module.exports = {
   verifyUser,
   handlePassword,
+  handGetUserList,
 }
