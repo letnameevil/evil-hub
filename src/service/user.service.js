@@ -39,6 +39,29 @@ class UserService {
     const result = await connection.execute(statement)
     return result[0]
   }
+
+  async insertUser(userInfo) {
+    let { name, password, roles, nickName } = userInfo
+    console.log(name, password, roles, nickName)
+    if(roles.length === 0) roles = ["user"]
+        
+    const statement = `INSERT INTO users (userId,name,password,roles,nickName) VALUES (?,?,?,?,?)`
+
+    try {
+      // 这里需要给没个用户生成一个唯一的userId
+      const result = await connection.execute(statement, [uuid.v4().replaceAll('-', ''), name, password, roles, nickName])
+      return {
+        status: 200,
+        message: '新增用户成功',
+      }
+    } catch (err) {
+      console.log('err', err.sqlMessage)
+      return {
+        status: 400,
+        message: err.sqlMessage,
+      }
+    }
+  }
 }
 
 module.exports = new UserService()

@@ -10,8 +10,6 @@ class UserController {
   }
 
   async getUserListController(ctx, next) {
-    console.log('ctx.userList', ctx.userList)
-
     const records = []
 
     ctx.userList.forEach((item) => {

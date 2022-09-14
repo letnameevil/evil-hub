@@ -48,8 +48,16 @@ const handGetUserList = async (ctx, next) => {
   await next()
 }
 
+// 新增用户中间件
+const addUserMid = async (ctx, next) => {
+  const ret =   await service.insertUser(ctx.request.body)
+  ctx.body = ret
+  next()
+}
+
 module.exports = {
   verifyUser,
   handlePassword,
   handGetUserList,
+  addUserMid
 }
