@@ -4,7 +4,7 @@ const { BASE_URL } = require('../app/config')
 class AuthController {
   // 操作数据库需要异步操作 要加async
   async create(ctx, next) {
-    const { userId, name, roles } = ctx.user
+    const { userId, name, roles ,nickName} = ctx.user
 
     const token =
       'Bearer ' +
@@ -20,7 +20,8 @@ class AuthController {
       name,
       roles,
       token,
-      BASE_URL
+      BASE_URL,
+      nickName
     }
   }
 }
